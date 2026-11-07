@@ -2,16 +2,8 @@
 
 import Image from "next/image";
 import { FormEvent, useEffect, useRef, useState } from "react";
-import ArchitectureDiagram from "./components/ArchitectureDiagram";
 import ParticleNetwork from "./components/ParticleNetwork";
-import ResearchMetrics from "./components/ResearchMetrics";
-import {
-  navItems,
-  ongoingResearch,
-  projects,
-  researchInterests,
-  skills,
-} from "./data";
+import { navItems, projects, publications, skills } from "./data";
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
@@ -73,35 +65,50 @@ function ProjectThumbnail({ kind }: { kind: (typeof projects)[number]["thumbnail
     );
   }
 
-  if (kind === "daamkhoj") {
+  if (kind === "fluentup") {
     return (
-      <div className="project-visual project-visual-two daam-preview" role="img" aria-label="Illustrative DaamKhoj product search preview">
-        <div className="daam-window-bar"><i /><i /><i /><span>DaamKhoj · দামখোঁজ</span></div>
-        <div className="daam-preview-content">
-          <span className="daam-preview-kicker">COMPARE WITH CONTEXT</span>
-          <strong>Find a better fit.</strong>
-          <div className="daam-search"><i className="fa-solid fa-magnifying-glass" aria-hidden="true" /><span>Search products in your language</span></div>
-          <div className="daam-language-row"><span>English</span><span>বাংলা</span><span>Banglish</span></div>
+      <div className="project-visual fluent-preview" role="img" aria-label="Illustrative FluentUp English practice screen">
+        <div className="fluent-phone">
+          <div className="fluent-topline"><span>9:41</span><span>● ● ▰</span></div>
+          <div className="fluent-app-label">FLUENTUP <span>DAILY PRACTICE</span></div>
+          <div className="fluent-app-card">
+            <span className="fluent-orbit" aria-hidden="true"><i /></span>
+            <strong>Practice speaking</strong>
+            <small>Build confidence, one conversation at a time.</small>
+            <span className="fluent-start">Start a conversation <i className="fa-solid fa-arrow-right" aria-hidden="true" /></span>
+          </div>
+          <div className="fluent-bottom-nav"><span>Learn</span><span>Practice</span><span>Vocabulary</span></div>
         </div>
-        <span className="thumbnail-caption">Illustrative interface preview · catalogue values are sample data</span>
+        <span className="thumbnail-caption">Illustrative preview · not an app screenshot</span>
+      </div>
+    );
+  }
+
+  if (kind === "fake-news") {
+    return (
+      <div className="project-visual fake-news-preview" role="img" aria-label="Illustrative Bangla news classification preview">
+        <div className="preview-window-bar"><i /><i /><i /><span>Bangla news classifier</span></div>
+        <div className="news-preview-body">
+          <span className="preview-eyebrow">ARTICLE CHECK</span>
+          <strong>সংবাদ শিরোনাম</strong>
+          <span className="news-preview-line" /><span className="news-preview-line short" />
+          <div className="news-prediction"><span>MODEL OUTPUT</span><strong>Prediction ready</strong></div>
+        </div>
+        <span className="thumbnail-caption">Illustrative preview · not an app screenshot</span>
       </div>
     );
   }
 
   return (
-    <div className="project-visual fluent-preview" role="img" aria-label="Illustrative FluentUp English practice screen">
-      <div className="fluent-phone">
-        <div className="fluent-topline"><span>9:41</span><span>● ● ▰</span></div>
-        <div className="fluent-app-label">FLUENTUP <span>DAILY PRACTICE</span></div>
-        <div className="fluent-app-card">
-          <span className="fluent-orbit" aria-hidden="true"><i /></span>
-          <strong>Practice speaking</strong>
-          <small>Build confidence, one conversation at a time.</small>
-          <span className="fluent-start">Start a conversation <i className="fa-solid fa-arrow-right" aria-hidden="true" /></span>
-        </div>
-        <div className="fluent-bottom-nav"><span>Learn</span><span>Practice</span><span>Vocabulary</span></div>
+    <div className="project-visual faculty-preview" role="img" aria-label="Illustrative faculty search and index preview">
+      <div className="preview-window-bar"><i /><i /><i /><span>Faculty research index</span></div>
+      <div className="faculty-preview-body">
+        <span className="preview-eyebrow">SEARCH THE INDEX</span>
+        <div className="faculty-search"><i className="fa-solid fa-magnifying-glass" aria-hidden="true" /><span>research interests</span></div>
+        <div className="faculty-index-row"><strong>stemming</strong><span>641 indexed stems</span></div>
+        <div className="faculty-index-row"><strong>regex query</strong><span>faculty records</span></div>
       </div>
-      <span className="thumbnail-caption">Illustrative product preview · not an app screenshot</span>
+      <span className="thumbnail-caption">Illustrative preview · no personal records shown</span>
     </div>
   );
 }
@@ -270,15 +277,14 @@ export default function Home() {
               <p className="about-intro">Education &amp; achievements</p>
               <div className="education-item">
                 <h3>B.Sc. in Computer Science</h3>
-                <p className="education-meta">American International University-Bangladesh (AIUB) · 2023–2027</p>
-                <ul><li>Current CGPA: 3.5 (as listed in the previous portfolio)</li><li>Undergraduate study in Computer Science</li></ul>
+                <p className="education-meta">American International University-Bangladesh (AIUB) · 2023–expected April 2027</p>
+                <ul><li>CGPA: 3.40 / 4.00 · final semester</li><li>Undergraduate study in Computer Science and Engineering</li></ul>
               </div>
               <div className="education-item">
                 <h3>HSC in Science</h3>
-                <p className="education-meta">Gaokhali School and College · 2020–2022</p>
-                <ul><li>Merit GPA: 5.00 (as listed in the previous portfolio)</li></ul>
+                <p className="education-meta">Gaokhali School and College · 2022</p>
+                <ul><li>GPA: 5.00 / 5.00</li></ul>
               </div>
-              <div className="achievement-note"><i className="fa-solid fa-award" aria-hidden="true" /><span>Research accepted subject to corrections at TENSYMP 2026; another paper is under conditional acceptance at ICCA 2026.</span><a href="#research">Research details <i className="fa-solid fa-arrow-right" aria-hidden="true" /></a></div>
             </div>
           </div>
         </section>
@@ -324,59 +330,21 @@ export default function Home() {
                   <h4>What it includes</h4>
                   <ul>{project.features.map((feature) => <li key={feature}>{feature}</li>)}</ul>
                   <p className="case-stack"><strong>Stack:</strong> {project.stack.join(" · ")}</p>
-                  <p className="case-date">{project.updated}</p>
-                  {project.slug === "daamkhoj" && <p className="case-note">Repository documentation says current listing prices and shop trust values are sample data.</p>}
                 </div>
               </details>
               {index === 0 && <span className="project-number" aria-hidden="true">01</span>}
             </article>)}
           </div>
-          <ArchitectureDiagram
-            title="CareerLab · application architecture"
-            caption="SIMPLIFIED FROM THE REPOSITORY STACK"
-            steps={[
-              { heading: "Web app", detail: "Next.js · TypeScript" },
-              { heading: "API", detail: "FastAPI" },
-              { heading: "Database", detail: "PostgreSQL" },
-            ]}
-          />
         </section>
 
         <section id="research" aria-labelledby="research-title" className="research-section scroll-reveal">
           <h2 id="research-title" className="section-title">Research &amp; Publications</h2>
-          <p className="research-intro">I’m interested in how machine learning and language technologies can answer practical questions reliably. The work below is at different stages; acceptance is not the same as publication.</p>
-
-          <div className="research-paper-grid">
-            <article className="research-paper">
-              <div className="paper-topline"><span className="paper-index">RESEARCH 01</span><span className="paper-status">Accepted subject to corrections</span></div>
-              <h3>Development of a Cloud-Linked Low-Cost Machine Learning-Enabled Weather Monitoring System</h3>
-              <p className="paper-conference">TENSYMP 2026</p>
-              <p className="paper-abstract">This work brings together low-cost weather sensing, cloud connectivity, and machine-learning-enabled analysis in a monitoring system.</p>
-              <p className="publication-note">Accepted subject to corrections. No DOI or published proceedings link is available in this repository.</p>
-            </article>
-
-            <article className="research-paper research-paper-featured">
-              <div className="paper-topline"><span className="paper-index">RESEARCH 02</span><span className="paper-status">Published · IEEE Xplore</span></div>
-              <h3>Can LLMs Replace Traditional Machine Learning? Evaluating Reliability on Imbalanced Tabular Data</h3>
-              <p className="paper-conference">ICCA 2026</p>
-              <p className="paper-abstract">A reliability evaluation of LLM approaches against a traditional XGBoost baseline across three imbalanced tabular datasets.</p>
-              <p className="study-method">Datasets: Adult Income, German Credit, and Heart Disease · Metrics: accuracy, F1-score, and ROC-AUC.</p>
-              <ResearchMetrics />
-              <p className="publication-note">Published in IEEE Xplore. <a href="https://ieeexplore.ieee.org/document/11704037" target="_blank" rel="noreferrer">Read the paper <i className="fa-solid fa-arrow-up-right-from-square" aria-hidden="true" /></a></p>
-            </article>
-          </div>
-
-          <div className="research-interests">
-            <div><p className="research-kicker">RESEARCH INTERESTS</p><h3>Questions I want to keep exploring.</h3></div>
-            <p className="interest-list">{researchInterests.join(" · ")}</p>
-          </div>
-
-          <div className="ongoing-research" id="ongoing-research">
-            <div className="ongoing-heading"><div><p className="research-kicker">IN PROGRESS · RESEARCH DIRECTIONS</p><h3>Ongoing research</h3></div><span className="ongoing-badge"><i /> Ideas in progress</span></div>
-            <article className="ongoing-feature">
-              <div className="ongoing-feature-copy"><span className="ongoing-label">ONGOING RESEARCH</span><h4>Temporal Graph Neural Network-Enhanced RAG for Time-Aware Multi-Hop Question Answering</h4><p>Exploring temporal graph representations to support retrieval that accounts for how facts and relationships change over time.</p><p className="ongoing-method">Temporal knowledge → graph representation → time-aware multi-hop retrieval → grounded answer</p></div>
-            </article>
-            <div className="ongoing-list">{ongoingResearch.slice(1).map((item) => <article key={item.title}><span className="ongoing-list-mark" aria-hidden="true">↗</span><div><h4>{item.title}</h4><p>{item.detail}</p></div><span className="ongoing-label">ONGOING</span></article>)}</div>
+          <div className="publication-list">
+            {publications.map((publication) => <article className="publication-item" key={publication.title}>
+              <h3>{publication.title}</h3>
+              <p>{publication.venue}</p>
+              <a href={publication.url} target="_blank" rel="noreferrer">{publication.linkLabel} <i className="fa-solid fa-arrow-up-right-from-square" aria-hidden="true" /></a>
+            </article>)}
           </div>
         </section>
 
