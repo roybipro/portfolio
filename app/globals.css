@@ -1887,3 +1887,51 @@ body.light-theme .paper-status-review{color:#7b5515}
 @media(max-width:768px){:root{scroll-padding-top:74px}.hero{padding:35px 28px 65px;min-height:calc(100vh - 78px)}.hero-ctas{gap:9px}.hero-ctas .btn{padding:11px 14px;font-size:.8rem}.hero-image-note{font-size:.61rem}.skills-categories{grid-template-columns:repeat(2,minmax(0,1fr))}.research-paper-grid{grid-template-columns:1fr}.research-method-grid{grid-template-columns:1fr}.research-interests{grid-template-columns:1fr}.ongoing-feature{grid-template-columns:1fr}.ongoing-list{grid-template-columns:1fr 1fr}.architecture-flow{gap:11px}.architecture-flow li{padding:10px 8px}.architecture-flow strong{font-size:.62rem}.architecture-flow small{font-size:.54rem}}
 @media(max-width:600px){.particle-network{opacity:.48}.hero{padding:32px 22px 62px;min-height:0;flex-direction:column;align-items:flex-start;gap:30px}.hero-left{max-width:100%}.hero-left h1{font-size:clamp(2.7rem,13vw,4.1rem)}.hero-left h2{font-size:clamp(1.6rem,7vw,2.25rem)}.hero-right{align-self:center;width:min(78%,340px)}.hero-right .avatar{max-height:390px;object-fit:contain}.hero-ctas .cv-request{font-size:.72rem}.hero-links{font-size:.82rem}.hero .social{left:22px;bottom:15px}.hero .scroll-indicator{right:22px;bottom:13px}.skills-categories{grid-template-columns:1fr}.research-section{padding-top:54px}.research-intro{margin:-12px auto 25px;font-size:.82rem}.research-paper{padding:17px}.paper-topline{align-items:flex-start;flex-direction:column}.paper-status{align-self:flex-start}.dataset-grid{grid-template-columns:1fr}.metric-row{grid-template-columns:67px 1fr 47px}.results-heading{align-items:flex-start;flex-direction:column;gap:3px}.research-results{padding:12px}.architecture-flow{flex-direction:column;gap:9px}.architecture-flow li{padding:10px 12px}.architecture-flow li:not(:last-child)::after{content:'⌄';right:50%;top:auto;bottom:-14px;transform:translate(50%,50%);z-index:1}.ongoing-research{padding:16px}.ongoing-heading{align-items:flex-start;flex-direction:column}.ongoing-list{grid-template-columns:1fr}.project-visual{height:205px}.projects-subtitle-second{margin-top:-13px}.research-interests{padding:17px}.achievement-note{font-size:.7rem}}
 @media(prefers-reduced-motion:reduce){:root{scroll-behavior:auto}*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}body.reveal-ready .scroll-reveal:not(.is-visible){opacity:1;transform:none}}
+
+
+/* Research V2: flatter hierarchy, less nested framing, and readable result rows. */
+.research-paper-grid{align-items:start;gap:34px}
+.research-paper,.research-paper-featured{padding:4px 0 0 18px;border:0;border-left:1px solid rgba(25,230,179,.32);border-radius:0;background:transparent}
+.paper-topline{align-items:flex-start;margin-bottom:11px}
+.paper-status{font-size:.68rem}
+.research-paper h3{font-size:1.06rem;line-height:1.55}
+.paper-abstract{font-size:.88rem}
+.study-method{font-size:.78rem;line-height:1.65;opacity:.75;margin-top:9px}
+.publication-note{font-size:.72rem}
+.research-results{padding:0;margin-top:15px;border:0;border-top:1px solid rgba(255,255,255,.1);border-radius:0;background:transparent}
+.results-heading{align-items:center;margin:12px 0 6px}
+.results-heading h3{font-size:.88rem}
+.results-heading>p{display:none}
+.results-table-wrap{overflow-x:auto}
+.results-table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:.72rem}
+.results-table th,.results-table td{padding:9px 7px;border-bottom:1px solid rgba(255,255,255,.09);text-align:left}
+.results-table thead th{font-size:.65rem;font-weight:500;opacity:.68}
+.results-table thead th:first-child,.results-table tbody th{width:22%;padding-left:0}
+.results-table tbody th{font-weight:600;white-space:nowrap}
+.metric-viz{display:flex;align-items:center;gap:7px;min-width:0}
+.metric-track{flex:1;min-width:25px;height:3px}
+.metric-viz strong{font-size:.68rem;font-weight:500}
+.results-footnote{font-size:.68rem;margin-top:8px}
+.research-interests{grid-template-columns:.6fr 1.4fr;gap:24px;margin-top:27px;padding:0;border:0;border-top:1px solid rgba(255,255,255,.13);border-bottom:1px solid rgba(255,255,255,.13);border-radius:0;background:transparent}
+.research-interests h3{font-size:.93rem}
+.interest-list{font-size:.83rem;line-height:1.9;opacity:.8}
+.ongoing-research{margin-top:26px;padding:19px 0 0;border:0;border-top:1px solid rgba(255,255,255,.15);border-radius:0;background:transparent}
+.ongoing-feature{display:block;margin-top:14px}
+.ongoing-feature-copy{padding:0 0 12px 15px;border-left:1px solid rgba(25,230,179,.4);background:transparent}
+.ongoing-feature-copy h4{font-size:.94rem}
+.ongoing-feature-copy p{font-size:.83rem}
+.ongoing-method{margin-top:8px;color:#19e6b3;opacity:.85!important}
+.ongoing-list{grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:12px}
+.ongoing-list article{grid-template-columns:auto 1fr;gap:4px 8px;padding:10px 0;border:0;border-top:1px solid rgba(255,255,255,.09);border-radius:0}
+.ongoing-list h4{font-size:.76rem}.ongoing-list p{font-size:.7rem}.ongoing-list .ongoing-label{display:none}
+body.light-theme .research-paper,body.light-theme .research-paper-featured{background:transparent;border-color:rgba(15,32,39,.24)}
+body.light-theme .research-results{background:transparent;border-color:rgba(15,32,39,.16)}
+body.light-theme .results-table th,body.light-theme .results-table td{border-color:rgba(15,32,39,.12)}
+body.light-theme .research-interests,body.light-theme .ongoing-research{background:transparent;border-color:rgba(15,32,39,.18)}
+body.light-theme .ongoing-feature-copy{background:transparent}
+@media(max-width:768px){.research-paper-grid{gap:24px}.research-interests{grid-template-columns:1fr;gap:8px}.ongoing-list{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.research-paper-grid{gap:23px}.research-paper,.research-paper-featured{padding-left:13px}.results-table{min-width:490px}.results-table-wrap{margin-right:-4px}.ongoing-list{grid-template-columns:1fr}}
+
+.publication-note a{display:inline-flex;align-items:center;gap:6px;margin-left:4px;color:#19e6b3;text-decoration:none}
+.publication-note a:hover{text-decoration:underline}
+body.light-theme .publication-note a{color:#126f61}

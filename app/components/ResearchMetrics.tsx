@@ -16,26 +16,19 @@ export default function ResearchMetrics() {
         </div>
         <p>Reported scores</p>
       </div>
-      <div className="dataset-grid">
-        {benchmarkResults.map((result) => (
-          <article className="dataset-card" key={result.dataset}>
-            <h4>{result.dataset}</h4>
-            <div className="metric-rows">
-              {metrics.map(([label, key]) => {
+      <div className="results-table-wrap">
+        <table className="results-table">
+          <thead><tr><th scope="col">Dataset</th>{metrics.map(([label]) => <th scope="col" key={label}>{label}</th>)}</tr></thead>
+          <tbody>{benchmarkResults.map((result) => (
+            <tr key={result.dataset}>
+              <th scope="row">{result.dataset}</th>
+              {metrics.map(([, key]) => {
                 const value = result[key];
-                return (
-                  <div className="metric-row" key={key}>
-                    <span>{label}</span>
-                    <span className="metric-track" aria-hidden="true">
-                      <span style={{ width: `${value * 100}%` }} />
-                    </span>
-                    <strong>{value.toFixed(4)}</strong>
-                  </div>
-                );
+                return <td key={key}><span className="metric-viz"><span className="metric-track" aria-hidden="true"><span style={{ width: `${value * 100}%` }} /></span><strong>{value.toFixed(4)}</strong></span></td>;
               })}
-            </div>
-          </article>
-        ))}
+            </tr>
+          ))}</tbody>
+        </table>
       </div>
       <p className="results-footnote">
         Scores are shown as supplied for the XGBoost baseline; they do not represent the LLM results.

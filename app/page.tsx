@@ -241,7 +241,7 @@ export default function Home() {
             <div className="hero-ctas hero-enter hero-enter-five">
               <a className="btn" href="#projects">View projects <i className="fa-solid fa-arrow-down-right-from-square" aria-hidden="true" /></a>
               <a className="btn btn-outline" href="#research">Research &amp; publications <i className="fa-solid fa-arrow-down" aria-hidden="true" /></a>
-              <a className="btn btn-outline cv-request" href="mailto:roybipro896@gmail.com?subject=CV%20request">CV available on request <i className="fa-solid fa-envelope" aria-hidden="true" /></a>
+              <a className="btn btn-outline cv-request" href={`${basePath}/files/Bipro_Roy_CV.pdf`} download="Bipro_Roy_CV.pdf">Download CV <i className="fa-solid fa-download" aria-hidden="true" /></a>
             </div>
             <div className="hero-links hero-enter hero-enter-six">
               <a href="https://github.com/roybipro" target="_blank" rel="noreferrer"><i className="fa-brands fa-github" aria-hidden="true" /> GitHub <i className="fa-solid fa-arrow-up-right-from-square link-arrow" aria-hidden="true" /></a>
@@ -352,59 +352,29 @@ export default function Home() {
               <h3>Development of a Cloud-Linked Low-Cost Machine Learning-Enabled Weather Monitoring System</h3>
               <p className="paper-conference">TENSYMP 2026</p>
               <p className="paper-abstract">This work brings together low-cost weather sensing, cloud connectivity, and machine-learning-enabled analysis in a monitoring system.</p>
-              <div className="paper-tags"><span>IoT</span><span>Cloud connectivity</span><span>Machine learning</span><span>Weather monitoring</span></div>
               <p className="publication-note">Accepted subject to corrections. No DOI or published proceedings link is available in this repository.</p>
             </article>
 
             <article className="research-paper research-paper-featured">
-              <div className="paper-topline"><span className="paper-index">RESEARCH 02</span><span className="paper-status paper-status-review">Conditional acceptance · revision requested</span></div>
+              <div className="paper-topline"><span className="paper-index">RESEARCH 02</span><span className="paper-status">Published · IEEE Xplore</span></div>
               <h3>Can LLMs Replace Traditional Machine Learning? Evaluating Reliability on Imbalanced Tabular Data</h3>
               <p className="paper-conference">ICCA 2026</p>
               <p className="paper-abstract">A reliability evaluation of LLM approaches against a traditional XGBoost baseline across three imbalanced tabular datasets.</p>
-              <div className="paper-tags"><span>LLM evaluation</span><span>Tabular data</span><span>XGBoost baseline</span><span>Imbalanced classification</span></div>
+              <p className="study-method">Datasets: Adult Income, German Credit, and Heart Disease · Metrics: accuracy, F1-score, and ROC-AUC.</p>
               <ResearchMetrics />
-              <p className="publication-note">Conditional acceptance subject to revision. These are baseline scores supplied for this portfolio; the paper is not presented as published.</p>
+              <p className="publication-note">Published in IEEE Xplore. <a href="https://ieeexplore.ieee.org/document/11704037" target="_blank" rel="noreferrer">Read the paper <i className="fa-solid fa-arrow-up-right-from-square" aria-hidden="true" /></a></p>
             </article>
-          </div>
-
-          <div className="research-method-grid">
-            <div className="method-panel">
-              <p className="research-kicker">EVALUATION SETUP</p>
-              <h3>Datasets &amp; metrics</h3>
-              <p>The reported XGBoost baseline uses Adult Income, German Credit, and Heart Disease. The evaluation metrics listed for this study are accuracy, F1-score, and ROC-AUC.</p>
-              <div className="method-list"><span>Adult Income</span><span>German Credit</span><span>Heart Disease</span></div>
-            </div>
-            <ArchitectureDiagram
-              title="Tabular model evaluation flow"
-              caption="HIGH-LEVEL STUDY COMPARISON"
-              steps={[
-                { heading: "Datasets", detail: "Three tabular benchmarks" },
-                { heading: "Model comparison", detail: "LLM approaches · XGBoost baseline" },
-                { heading: "Evaluation", detail: "Accuracy · F1 · ROC-AUC" },
-              ]}
-            />
           </div>
 
           <div className="research-interests">
             <div><p className="research-kicker">RESEARCH INTERESTS</p><h3>Questions I want to keep exploring.</h3></div>
-            <div className="interest-tags">{researchInterests.map((interest) => <a href="#ongoing-research" key={interest}>{interest}<i className="fa-solid fa-arrow-down-right-from-square" aria-hidden="true" /></a>)}</div>
+            <p className="interest-list">{researchInterests.join(" · ")}</p>
           </div>
 
           <div className="ongoing-research" id="ongoing-research">
             <div className="ongoing-heading"><div><p className="research-kicker">IN PROGRESS · RESEARCH DIRECTIONS</p><h3>Ongoing research</h3></div><span className="ongoing-badge"><i /> Ideas in progress</span></div>
             <article className="ongoing-feature">
-              <div className="ongoing-feature-copy"><span className="ongoing-label">ONGOING RESEARCH</span><h4>Temporal Graph Neural Network-Enhanced RAG for Time-Aware Multi-Hop Question Answering</h4><p>Exploring temporal graph representations to support retrieval that accounts for how facts and relationships change over time.</p><div className="paper-tags"><span>Temporal GNNs</span><span>RAG</span><span>Multi-hop QA</span><span>Time-aware retrieval</span></div></div>
-              <ArchitectureDiagram
-                title="Proposed retrieval flow"
-                caption="CONCEPTUAL ARCHITECTURE"
-                proposed
-                steps={[
-                  { heading: "Time-stamped knowledge", detail: "Sources and their temporal context" },
-                  { heading: "Temporal graph", detail: "Relationships evolving over time" },
-                  { heading: "Multi-hop retrieval", detail: "Context selected for the question time" },
-                  { heading: "Grounded response", detail: "Answer with retrieved context" },
-                ]}
-              />
+              <div className="ongoing-feature-copy"><span className="ongoing-label">ONGOING RESEARCH</span><h4>Temporal Graph Neural Network-Enhanced RAG for Time-Aware Multi-Hop Question Answering</h4><p>Exploring temporal graph representations to support retrieval that accounts for how facts and relationships change over time.</p><p className="ongoing-method">Temporal knowledge → graph representation → time-aware multi-hop retrieval → grounded answer</p></div>
             </article>
             <div className="ongoing-list">{ongoingResearch.slice(1).map((item) => <article key={item.title}><span className="ongoing-list-mark" aria-hidden="true">↗</span><div><h4>{item.title}</h4><p>{item.detail}</p></div><span className="ongoing-label">ONGOING</span></article>)}</div>
           </div>
