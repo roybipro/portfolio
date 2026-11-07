@@ -1,97 +1,136 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
-import {
-  ArrowDown, ArrowDownRight, ArrowUpRight, Check, Code2,
-  Github, Instagram, Linkedin, Menu, Moon, Send, Sparkles, Sun, X,
-} from "lucide-react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
-type Project = {
-  name: string;
-  title: string;
-  summary: string;
-  description: string;
-  tags: string[];
-  kind: "Product" | "AI & learning";
-  url: string;
-  demo?: string;
-  accent: string;
-  symbol: string;
-  number: string;
-  updated: string;
-};
-
-const projects: Project[] = [
+const projects = [
   {
-    name: "careerlab",
-    title: "A calmer way to build your career.",
-    summary: "Applications, research, people, and deadlines — finally in one place.",
-    description: "A private workspace for the whole search journey. Track jobs and research opportunities on a Kanban board, keep notes and contacts close, and see deadlines and activity from a focused dashboard. Includes a live demo.",
+    name: "CareerLab",
+    repo: "careerlab",
+    description: "A private workspace for tracking job applications, research opportunities, contacts, reminders, and deadlines. Includes status boards, analytics, and a live demo.",
     tags: ["Next.js", "TypeScript", "FastAPI", "PostgreSQL", "Docker"],
-    kind: "Product",
-    url: "https://github.com/roybipro/careerlab",
-    demo: "https://careerlab-opal.vercel.app",
-    accent: "mint",
-    symbol: "CL",
-    number: "01",
+    visual: "project-visual-one",
     updated: "Updated Nov 7, 2026",
+    demo: "https://careerlab-opal.vercel.app",
   },
   {
-    name: "daamkhoj-price-comparison",
-    title: "Know the price. Know the shop.",
-    summary: "Compare online shop offers with trust signals made visible.",
-    description: "A Bangladesh-focused shopping comparison experience with tolerant English, Bangla, and Banglish search, shareable comparisons, price trends, and a transparent trust score. Product listings and ratings are sample data today.",
-    tags: ["TypeScript", "Search", "Data visualization", "Accessibility"],
-    kind: "Product",
-    url: "https://github.com/roybipro/daamkhoj-price-comparison",
-    accent: "orange",
-    symbol: "দাম",
-    number: "02",
+    name: "DaamKhoj",
+    repo: "daamkhoj-price-comparison",
+    description: "A Bangladesh-focused shop comparison experience with English, Bangla, and Banglish search, price trends, and transparent trust signals. Current prices and ratings are sample data.",
+    tags: ["TypeScript", "Search", "Data visualization"],
+    visual: "project-visual-two",
     updated: "Updated Nov 6, 2026",
   },
   {
-    name: "fluentup",
-    title: "Find your voice, one day at a time.",
-    summary: "An English-learning companion built with Bengali learners in mind.",
-    description: "A mobile app and API for guided English practice: structured CEFR and IELTS learning, AI conversation, vocabulary review, grammar feedback, and listening practice with offline support.",
+    name: "FluentUp",
+    repo: "fluentup",
+    description: "An English-learning mobile app and API with structured CEFR and IELTS practice, AI conversation, vocabulary review, grammar feedback, and offline support.",
     tags: ["React Native", "Expo", "Python", "FastAPI", "AI"],
-    kind: "AI & learning",
-    url: "https://github.com/roybipro/fluentup",
-    accent: "violet",
-    symbol: "Fluent",
-    number: "03",
+    visual: "project-visual-one",
     updated: "Updated Nov 6, 2026",
   },
 ];
 
-const skills = ["TypeScript", "React & Next.js", "Python", "FastAPI", "PostgreSQL", "C++", "Machine learning", "UI engineering"];
-const navItems = [["About", "#about"], ["Work", "#work"], ["Writing", "#writing"], ["Contact", "#contact"]];
+const posts = [
+  {
+    title: "Top 7 AI Skills You Need to Learn in 2026 to Stay Ahead",
+    url: "https://roybipro.blogspot.com/2026/03/top-7-ai-skills-you-need-to-learn-in.html",
+    image: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjC9_BG9OV4gxN2Iocr-xU5qLIrQsu86hgAk1AiwexnzwRik5IQTL3wkp2lfNSr4h-r3C3Iw-oxZsabSHFbq12U4jA3ES2gQVFs-fnajmPcc-_ejMvDAaJF2x6Tdr2xk6mq9ohfW4sjE10ZNxZGi9zLaCwEi1sIk5iLAS_pZv2jwTxmEcmLB8vHPG8avzuW/s960/7-Benefits-That-Highlight-The-Importance-Of-Soft-Skills-In-The-Workplace.png",
+    alt: "AI skills blog cover",
+    date: "March 22, 2026 | 07:42 AM",
+    excerpt: "A look at the AI skills worth learning this year, and how to keep pace with a fast-changing field.",
+  },
+  {
+    title: "How AI Is Changing Student Life: Smarter Learning in the Digital Age",
+    url: "https://roybipro.blogspot.com/2026/03/how-ai-is-changing-student-life-smarter.html",
+    image: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgPT0GL36pg-3PYhRIY8yfUhB6tXIf50tU7a7cqGbR7QYckLZufObIqXszXWbiNSFmUDde579P5y_tEyvcqmTnmqnpgfe9xoopMbyfeT8EBw_P3OD8W5BbT6x-f1VbYu3yKvWLFnMA9R9KRDeMgH1RxGtTzoxc_vE-qUCn0wr3IemI3uysdkksuZKor5DMF/s960/1520135695087.jpeg",
+    alt: "AI and student life blog cover",
+    date: "March 22, 2026 | 07:38 AM",
+    excerpt: "Practical examples of how AI tools can help students study, research, and organize everyday work.",
+  },
+  {
+    title: "Will AI Replace Developers? A Realistic Look at the Future of Coding",
+    url: "https://roybipro.blogspot.com/2026/03/will-ai-replace-developers-realistic.html",
+    image: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgT0fYKn0AMRpynfhryPooh0S4hpjd6ZdI31Pb4a4opdRpz8u19ZdEzFoArf0Sg7LtM6F_iEW-miV3uft4MM-K1oApooAYgSCxM52eN6Q3ROC9Lal_li5BtMCWOyWMzIefwbs1HyfRjfActtzxEgP7ZJssZFCdp8i4yqt4_41j7ptzXW72zueX3D5adesWO/s960/AI-assisted-coding.png",
+    alt: "AI and coding blog cover",
+    date: "March 22, 2026 | 07:36 AM",
+    excerpt: "What AI can automate today, where developers still matter, and why adapting to new tools is useful.",
+  },
+  {
+    title: "The Future of Artificial Intelligence: From Past to Possibilities",
+    url: "https://roybipro.blogspot.com/2026/03/future-of-artificial-intelligence-from.html",
+    image: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjfb3bmIYkCfYlZbd6JE8xQJdMoqjZWENC8mDhNksCPTVtqy2u-XqaIeMvbErIuEPYEhUo6285OGqc5Qw2JRZ1fhAjUOi-ehUOKjb_XnVQNqKv4FkJozceqeDzu_EhinfoyBL6_BIQ6NnM5ys1aGiI-6dDZqZO9fX7j5kdI1Z19fodMJc3FGVHgqAv_4kG-/s960/The-Future-of-AI-and-Its-Impact-on-Humanity.webp",
+    alt: "The future of AI blog cover",
+    date: "March 22, 2026 | 07:28 AM",
+    excerpt: "A tour through AI’s evolution and the possibilities it may open up in the future.",
+  },
+];
+
+const skills = [
+  ["fa-brands fa-react icon-react", "ReactJS"], ["fa-brands fa-js icon-next", "NextJS"],
+  ["fa-solid fa-code icon-typescript", "TypeScript"], ["fa-solid fa-wind icon-tailwind", "Tailwind CSS"],
+  ["fa-solid fa-bolt icon-motion", "Motion"], ["fa-solid fa-layer-group icon-sanity", "Sanity"],
+  ["fa-solid fa-cubes icon-contentful", "Contentful"], ["fa-brands fa-node-js icon-node", "NodeJS"],
+  ["fa-solid fa-server icon-express", "ExpressJS"], ["fa-solid fa-database icon-postgres", "PostgreSQL"],
+  ["fa-solid fa-leaf icon-mongo", "MongoDB"], ["fa-solid fa-gem icon-prisma", "Prisma"],
+  ["fa-solid fa-circle-nodes icon-zustand", "Zustand"], ["fa-solid fa-shield-halved icon-zod", "Zod"],
+  ["fa-solid fa-box-open icon-pnpm", "pnpm"], ["fa-solid fa-fire icon-bun", "Bun"],
+  ["fa-brands fa-git-alt icon-git", "Git"], ["fa-brands fa-github icon-github", "GitHub"],
+  ["fa-solid fa-cloud icon-vercel", "Vercel"], ["fa-brands fa-aws icon-aws", "AWS"],
+  ["fa-brands fa-docker icon-docker", "Docker"], ["fa-solid fa-mobile-screen-button icon-expo", "Expo"],
+  ["fa-solid fa-user-lock icon-clerk", "Clerk"], ["fa-brands fa-linux icon-linux", "Linux"],
+];
+
+const navItems = [
+  ["Who am I?", "about"], ["Skills", "skills"], ["Projects", "projects"], ["Blog", "blog"], ["Contact", "contact"],
+];
 
 export default function Home() {
   const [theme, setTheme] = useState<"dark" | "light">("dark");
-  const [filter, setFilter] = useState("All work");
-  const [expanded, setExpanded] = useState<string | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [copied, setCopied] = useState(false);
-  const [scrollProgress, setScrollProgress] = useState(0);
+  const [activeSection, setActiveSection] = useState("");
+  const [blogIndex, setBlogIndex] = useState(0);
+  const [cardsPerView, setCardsPerView] = useState(3);
+  const [expandedProject, setExpandedProject] = useState<string | null>(null);
+  const [formErrors, setFormErrors] = useState<Record<string, string>>({});
+  const [formStatus, setFormStatus] = useState("");
+  const navRef = useRef<HTMLElement>(null);
+  const blogGridRef = useRef<HTMLDivElement>(null);
   const initialized = useRef(false);
+  const maxBlogIndex = Math.max(0, posts.length - cardsPerView);
 
   useEffect(() => {
     const saved = window.localStorage.getItem("portfolio-theme");
     const frame = window.requestAnimationFrame(() => {
       if (saved === "light" || saved === "dark") setTheme(saved);
     });
-    const onScroll = () => {
-      const range = document.documentElement.scrollHeight - window.innerHeight;
-      setScrollProgress(range > 0 ? (window.scrollY / range) * 100 : 0);
+
+    const getCardsPerView = () => window.innerWidth <= 480 ? 1 : window.innerWidth <= 768 ? 2 : 3;
+    const updateCardsPerView = () => {
+      setCardsPerView(getCardsPerView());
+      setBlogIndex((index) => Math.min(index, Math.max(0, posts.length - getCardsPerView())));
     };
-    window.addEventListener("scroll", onScroll, { passive: true });
+    updateCardsPerView();
+    window.addEventListener("resize", updateCardsPerView);
+
+    const sections = document.querySelectorAll<HTMLElement>("main section[id]");
+    const observer = new IntersectionObserver((entries) => {
+      const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if (visible) setActiveSection(visible.target.id);
+    }, { rootMargin: "-25% 0px -60% 0px", threshold: [0, 0.2, 0.5] });
+    sections.forEach((section) => observer.observe(section));
+
+    const closeOnOutsideClick = (event: MouseEvent) => {
+      if (navRef.current && !navRef.current.contains(event.target as Node)) setMenuOpen(false);
+    };
+    document.addEventListener("click", closeOnOutsideClick);
     return () => {
       window.cancelAnimationFrame(frame);
-      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", updateCardsPerView);
+      document.removeEventListener("click", closeOnOutsideClick);
+      observer.disconnect();
     };
   }, []);
 
@@ -100,107 +139,180 @@ export default function Home() {
       initialized.current = true;
       return;
     }
-    document.documentElement.dataset.theme = theme;
+    document.body.classList.toggle("light-theme", theme === "light");
     window.localStorage.setItem("portfolio-theme", theme);
   }, [theme]);
 
-  const visibleProjects = projects.filter((project) => filter === "All work" || project.kind === filter);
+  function updateBlogCarousel(nextIndex: number) {
+    const grid = blogGridRef.current;
+    const firstCard = grid?.querySelector<HTMLElement>(".blog-card");
+    if (!grid || !firstCard) return;
+    const gap = Number.parseFloat(window.getComputedStyle(grid).gap) || 0;
+    const offset = Math.max(0, Math.min(nextIndex, maxBlogIndex)) * (firstCard.getBoundingClientRect().width + gap);
+    grid.style.transform = `translateX(-${offset}px)`;
+    setBlogIndex(Math.max(0, Math.min(nextIndex, maxBlogIndex)));
+  }
 
-  async function copyEmail() {
-    await navigator.clipboard.writeText("roybipro896@gmail.com");
-    setCopied(true);
-    window.setTimeout(() => setCopied(false), 1800);
+  useEffect(() => {
+    const grid = blogGridRef.current;
+    const firstCard = grid?.querySelector<HTMLElement>(".blog-card");
+    if (!grid || !firstCard) return;
+    const gap = Number.parseFloat(window.getComputedStyle(grid).gap) || 0;
+    grid.style.transform = `translateX(-${blogIndex * (firstCard.getBoundingClientRect().width + gap)}px)`;
+  }, [blogIndex, cardsPerView]);
+
+  function validateField(field: HTMLInputElement | HTMLTextAreaElement) {
+    const value = field.value.trim();
+    let error = "";
+    if (field.name === "name" && value.length < 2) error = "Name must be at least 2 characters.";
+    if (field.name === "email" && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value)) error = "Enter a valid email address.";
+    if (field.name === "message" && value.length < 20) error = "Message should be at least 20 characters.";
+    setFormErrors((previous) => ({ ...previous, [field.name]: error }));
+    return error === "";
+  }
+
+  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const fields = Array.from(form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>("input, textarea"));
+    const valid = fields.map(validateField).every(Boolean);
+    if (!valid) {
+      setFormStatus("Please fix the highlighted fields.");
+      return;
+    }
+    const values = new FormData(form);
+    const subject = `Portfolio message from ${String(values.get("name"))}`;
+    const body = `From: ${String(values.get("name"))} (${String(values.get("email"))})\n\n${String(values.get("message"))}`;
+    setFormStatus("Opening your email app to send the message…");
+    window.location.href = `mailto:roybipro896@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   }
 
   return (
     <>
-      <div className="scroll-progress" style={{ transform: `scaleX(${scrollProgress / 100})` }} />
-      <header className="site-header">
-        <a className="wordmark" href="#top" aria-label="Roy Bipro home">RB<span>.</span></a>
-        <nav className={menuOpen ? "nav-links open" : "nav-links"} aria-label="Main navigation">
-          {navItems.map(([label, href]) => <a key={label} href={href} onClick={() => setMenuOpen(false)}>{label}</a>)}
-        </nav>
-        <div className="header-actions">
-          <a className="availability" href="#contact"><span /> Available for opportunities</a>
-          <button className="icon-button theme-button" aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} theme`} onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>
-            {theme === "dark" ? <Sun size={17} /> : <Moon size={17} />}
-          </button>
-          <button className="icon-button menu-button" aria-label={menuOpen ? "Close menu" : "Open menu"} aria-expanded={menuOpen} onClick={() => setMenuOpen(!menuOpen)}>
-            {menuOpen ? <X size={20} /> : <Menu size={20} />}
-          </button>
+      <header className="navbar">
+        <div className="navbar-inner">
+          <div className="logo"><a href="#top">RoyBipro<span>.dev</span></a></div>
+          <nav className="main-nav" aria-label="Primary" ref={navRef}>
+            <button className="menu-toggle" type="button" aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"} aria-controls="primary-menu" aria-expanded={menuOpen} onClick={() => setMenuOpen(!menuOpen)}>
+              <i className={`fa-solid ${menuOpen ? "fa-xmark" : "fa-bars"}`} aria-hidden="true" />
+            </button>
+            <div className={`nav-links${menuOpen ? " open" : ""}`} id="primary-menu">
+              {navItems.map(([label, id]) => <a className={activeSection === id ? "active" : ""} href={`#${id}`} key={id} onClick={() => setMenuOpen(false)}>{label}</a>)}
+            </div>
+            <button className="theme-toggle" type="button" aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`} onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>
+              <i className={`fa-solid ${theme === "dark" ? "fa-sun" : "fa-moon"}`} aria-hidden="true" />
+            </button>
+          </nav>
         </div>
       </header>
 
       <main id="top">
-        <section className="hero section-wrap">
-          <div className="hero-copy">
-            <p className="eyebrow"><span className="eyebrow-line" /> COMPUTER SCIENCE · BANGLADESH</p>
-            <h1>Curious mind.<br /><span>Useful things.</span></h1>
-            <p className="hero-lede">I’m Roy — a CS student who likes turning ambitious ideas into thoughtful, useful software.</p>
-            <div className="hero-actions">
-              <a className="button button-primary" href="#work">Explore my work <ArrowDownRight size={17} /></a>
-              <a className="text-link" href="mailto:roybipro896@gmail.com">Let’s talk <ArrowUpRight size={16} /></a>
-            </div>
-            <div className="hero-footnote"><span className="tiny-dot" /> Currently building products, learning AI, and shipping one idea at a time.</div>
+        <section className="hero">
+          <div className="hero-left">
+            <p className="intro">Hello my name is</p>
+            <h1>Roy Bipro</h1>
+            <h2>Undergraduate CS student</h2>
+            <p className="description">I’m a Computer Science student who loves building things with code. My main interests are Artificial Intelligence, Machine Learning, and Web Development. I enjoy learning new technologies, experimenting with ideas, and creating projects that solve real-world problems.</p>
+            <a className="btn" href="mailto:roybipro896@gmail.com">Contact me!</a>
           </div>
-          <div className="portrait-wrap">
-            <div className="portrait-orbit orbit-one" /><div className="portrait-orbit orbit-two" />
-          <div className="portrait-card">
-              <Image src={`${basePath}/images/my-photo.jpg`} alt="Roy Bipro" fill priority sizes="(max-width: 760px) 72vw, 390px" className="portrait-image" />
-              <div className="portrait-grain" />
-              <div className="portrait-label"><span>ROY BIPRO</span><small>Student · Builder · Curious human</small></div>
-            </div>
-            <div className="float-note note-top"><Sparkles size={14} /> idea → shipped</div>
-            <div className="float-note note-bottom"><span className="status-pulse" /> building in public</div>
-            <span className="portrait-index">01 — 03</span>
+          <div className="hero-right">
+            <Image className="avatar" src={`${basePath}/images/avatar.png`} alt="Roy Bipro avatar" width={490} height={735} priority />
           </div>
-          <a className="hero-scroll" href="#about"><span>Scroll to explore</span><ArrowDown size={15} /></a>
+          <div className="social" aria-label="Social links">
+            <a href="https://github.com/roybipro" target="_blank" rel="noreferrer" aria-label="GitHub"><i className="fa-brands fa-github" aria-hidden="true" /></a>
+            <a href="https://www.linkedin.com/in/roy-bipro/" target="_blank" rel="noreferrer" aria-label="LinkedIn"><i className="fa-brands fa-linkedin" aria-hidden="true" /></a>
+            <a href="https://dev.to/roybipro" target="_blank" rel="noreferrer" aria-label="Dev.to"><i className="fa-brands fa-dev" aria-hidden="true" /></a>
+            <a href="https://www.instagram.com/bipro.raw/" target="_blank" rel="noreferrer" aria-label="Instagram"><i className="fa-brands fa-instagram" aria-hidden="true" /></a>
+          </div>
+          <a className="scroll-indicator" href="#about"><span className="scroll-label">Scroll</span><span className="scroll-mouse" aria-hidden="true"><span className="scroll-wheel" /></span><i className="fa-solid fa-chevron-down" aria-hidden="true" /></a>
         </section>
 
-        <section className="intro-strip" id="about">
-          <div className="section-wrap intro-grid">
-            <p className="eyebrow">A LITTLE ABOUT ME</p>
-            <div><h2>I care about the details that make software feel <em>human.</em></h2><p className="intro-body">I’m studying Computer Science at American International University–Bangladesh. I like full-stack product work, practical AI, and the satisfying moment when a rough idea becomes something another person can use.</p>
-              <div className="skill-list">{skills.map((skill) => <span key={skill}>{skill}</span>)}</div>
+        <section id="about" aria-labelledby="about-title">
+          <h2 className="section-title" id="about-title">Who am I?</h2>
+          <div className="about-container">
+            <div className="about-left"><Image src={`${basePath}/images/my-photo.jpg`} alt="Roy Bipro" className="about-image" width={320} height={400} /></div>
+            <div className="about-right">
+              <p className="about-description">I am a Computer Science student with a strong foundation in programming and problem-solving. I have developed skills in data structures and algorithms, web development, and Python programming. Alongside my academic journey, I am actively exploring artificial intelligence and machine learning, building practical knowledge through continuous learning and hands-on projects. My education and self-driven learning approach are helping me shape a solid foundation for a future career in technology.</p>
+              <p className="about-intro">Here is my educational background.</p>
+              <div className="education-item"><h3>B.Sc (Hons) in Computer Science</h3><p className="education-meta">American International University - Bangladesh (AIUB) | 2023-3 ~ 2027-1</p><ul><li>Studied computer science</li><li>CGPA: 3.5</li></ul></div>
+              <div className="education-item"><h3>HSC in Science</h3><p className="education-meta">Gaokhali School and College | 2020 ~ 2022</p><ul><li>Studied modules in Science</li><li>Passed HSC with overall Merit GPA: 5.00</li></ul></div>
             </div>
-            <div className="study-note"><span className="study-icon"><Code2 size={19} /></span><span><b>Currently</b><small>B.Sc. in Computer Science<br />AIUB · 2023–2027</small></span></div>
           </div>
         </section>
 
-        <section className="work-section section-wrap" id="work">
-          <div className="section-heading">
-            <div><p className="eyebrow"><span className="eyebrow-line" /> RECENTLY MADE</p><h2>Selected work<span className="accent-dot">.</span></h2><p className="section-subtitle">A few ideas I’ve been shaping into real products.</p></div>
-            <a className="text-link github-link" href="https://github.com/roybipro?tab=repositories" target="_blank" rel="noreferrer">More on GitHub <ArrowUpRight size={16} /></a>
+        <section id="skills" aria-labelledby="skills-title">
+          <div className="skills-shell">
+            <p className="skills-kicker">MY SKILLSET</p>
+            <h2 id="skills-title" className="skills-title">The Magic <span>Behind</span></h2>
+            <div className="skills-grid" role="list" aria-label="Technology skill badges">
+              {skills.map(([icon, label]) => <span className="skill-chip" role="listitem" key={label}><i className={icon} aria-hidden="true" />{label}</span>)}
+            </div>
           </div>
-          <div className="filter-row" role="group" aria-label="Filter projects">
-            {["All work", "Product", "AI & learning"].map((item) => <button key={item} aria-pressed={filter === item} className={filter === item ? "filter-chip active" : "filter-chip"} onClick={() => setFilter(item)}>{item}<span>{item === "All work" ? projects.length : projects.filter((project) => project.kind === item).length}</span></button>)}
-          </div>
-          <div className="project-list">
-            {visibleProjects.map((project) => <article className={`project-card ${project.accent} ${expanded === project.name ? "expanded" : ""}`} key={project.name}>
-              <div className="project-visual" aria-hidden="true"><div className="visual-grid" /><div className="visual-orb" /><span className="visual-logo">{project.symbol}</span><span className="visual-window"><i /><i /><i /></span><span className="visual-label">{project.name}</span></div>
-              <div className="project-content"><div className="project-topline"><span className="project-number">{project.number} / SELECTED PROJECT</span><span className="project-updated">{project.updated}</span></div>
-                <h3>{project.title}</h3><p className="project-summary">{project.summary}</p>
-                <div className="tag-row">{project.tags.map((tag) => <span key={tag}>{tag}</span>)}</div>
-                {expanded === project.name && <div className="project-details"><p>{project.description}</p>{project.name === "careerlab" && <p className="demo-note">The first request to the free-tier demo may take a minute to wake up.</p>}{project.name === "daamkhoj-price-comparison" && <p className="demo-note">Prices and shop ratings are sample data, clearly marked in the app.</p>}</div>}
-                <div className="project-actions"><button className="details-button" aria-expanded={expanded === project.name} onClick={() => setExpanded(expanded === project.name ? null : project.name)}>{expanded === project.name ? "Less about it" : "What I built"}<ArrowDownRight size={15} className={expanded === project.name ? "rotate-icon" : ""} /></button>{project.demo && <a className="project-visit" href={project.demo} target="_blank" rel="noreferrer">Live demo <ArrowUpRight size={15} /></a>}<a className="project-visit repo-link" href={project.url} target="_blank" rel="noreferrer">Source <Github size={15} /></a></div>
-              </div>
+        </section>
+
+        <section id="projects" aria-labelledby="projects-title">
+          <h2 id="projects-title" className="section-title">Featured Projects</h2>
+          <p className="projects-subtitle">&quot;Talk is cheap. Show me the code&quot;? I got you.</p>
+          <p className="projects-subtitle projects-subtitle-second">Here is some of my recent work you should not miss.</p>
+          <div className="projects-grid">
+            {projects.map((project) => <article className="project-card" key={project.repo}>
+              <div className={`project-visual ${project.visual}`} role="img" aria-label={`${project.name} project preview`} />
+              <div className="project-info-row"><h3>{project.name}</h3><div className="project-meta-icons">
+                {project.demo && <a className="project-demo-link" href={project.demo} target="_blank" rel="noreferrer" aria-label={`Open ${project.name} live demo`} title="Live demo"><i className="fa-solid fa-arrow-up-right-from-square" aria-hidden="true" /></a>}
+                <a href={`https://github.com/roybipro/${project.repo}`} target="_blank" rel="noreferrer" aria-label={`Open ${project.name} repository`} title="GitHub repository"><i className="fa-brands fa-github" aria-hidden="true" /></a>
+                <button className="project-details-toggle" type="button" aria-expanded={expandedProject === project.repo} aria-label={`${expandedProject === project.repo ? "Hide" : "Show"} details for ${project.name}`} onClick={() => setExpandedProject(expandedProject === project.repo ? null : project.repo)}><i className={`fa-solid ${expandedProject === project.repo ? "fa-chevron-up" : "fa-chevron-down"}`} aria-hidden="true" /></button>
+              </div></div>
+              <p className="project-description">{project.description}</p>
+              {expandedProject === project.repo && <div className="project-extra"><p>{project.updated}{project.repo === "daamkhoj-price-comparison" ? " · Current prices and trust values are sample data." : " · View the source for implementation details."}</p></div>}
+              <div className="project-tags">{project.tags.map((tag) => <span key={tag}>{tag}</span>)}</div>
             </article>)}
           </div>
         </section>
 
-        <section className="writing-section">
-          <div className="section-wrap writing-inner" id="writing"><div><p className="eyebrow"><span className="eyebrow-line" /> NOTES FROM THE JOURNEY</p><h2>Learning out loud.</h2><p>Short reflections on technology, student life, and the things I’m figuring out along the way.</p></div><a className="button button-ghost" href="https://roybipro.blogspot.com/" target="_blank" rel="noreferrer">Read my writing <ArrowUpRight size={16} /></a></div>
+        <section id="blog" aria-labelledby="blog-title">
+          <h2 id="blog-title" className="section-title">Blog</h2>
+          <p className="blog-subtitle">I write blog posts about what I have done and what I am doing as a documenting practice. Here are some of my recent blog posts.</p>
+          <div className="blog-carousel-shell">
+            <button className="blog-arrow blog-arrow-left" aria-label="Previous posts" type="button" disabled={blogIndex === 0} onClick={() => updateBlogCarousel(blogIndex - 1)}><i className="fa-solid fa-chevron-left" aria-hidden="true" /></button>
+            <div className="blog-viewport"><div className="blog-grid" ref={blogGridRef}>
+              {posts.map((post) => <article className="blog-card" key={post.url}>
+                <a className="blog-thumb-link" href={post.url} target="_blank" rel="noreferrer" aria-label={`Open blog post: ${post.title}`}><Image className="blog-thumb" src={post.image} alt={post.alt} width={960} height={540} unoptimized loading="lazy" /></a>
+                <h3><a href={post.url} target="_blank" rel="noreferrer">{post.title}</a></h3>
+                <p className="blog-meta"><i className="fa-regular fa-calendar" aria-hidden="true" />{post.date}</p>
+                <p className="blog-excerpt">{post.excerpt}</p>
+              </article>)}
+            </div></div>
+            <button className="blog-arrow blog-arrow-right" aria-label="Next posts" type="button" disabled={blogIndex >= maxBlogIndex} onClick={() => updateBlogCarousel(blogIndex + 1)}><i className="fa-solid fa-chevron-right" aria-hidden="true" /></button>
+          </div>
+          <div className="blog-dots" aria-label="Choose a blog page">{Array.from({ length: maxBlogIndex + 1 }, (_, index) => <button key={index} type="button" className={index === blogIndex ? "active" : ""} aria-label={`Show blog page ${index + 1}`} aria-current={index === blogIndex ? "page" : undefined} onClick={() => updateBlogCarousel(index)} />)}</div>
+          <a className="blog-read-all" href="https://roybipro.blogspot.com/" target="_blank" rel="noreferrer">Read all blog posts <i className="fa-solid fa-arrow-right" aria-hidden="true" /></a>
         </section>
 
-        <section className="contact-section section-wrap" id="contact">
-          <div className="contact-kicker"><span className="status-pulse" /> OPEN TO OPPORTUNITIES</div>
-          <h2>Have a good idea?<br /><span>Let’s make it real.</span></h2>
-          <div className="contact-bottom"><a href="mailto:roybipro896@gmail.com" className="email-link">roybipro896@gmail.com <ArrowUpRight size={19} /></a><button className="copy-button" onClick={copyEmail}>{copied ? <><Check size={15} /> Copied</> : "Copy email"}</button><span className="contact-location">Based in Bangladesh · Open to the world</span></div>
-          <div className="contact-decoration"><Send size={18} /></div>
+        <section id="contact" aria-labelledby="contact-title">
+          <div className="contact-shell">
+            <h2 id="contact-title" className="contact-title"><span>LET&apos;S WORK</span><span className="contact-title-muted">TOGETHER</span></h2>
+            <form className="contact-form" onSubmit={handleSubmit} noValidate>
+              <div className="contact-row">
+                <div className="contact-field"><label htmlFor="contact-name">Name</label><input id="contact-name" type="text" name="name" placeholder="Your Name" required aria-invalid={Boolean(formErrors.name)} onBlur={(event) => validateField(event.currentTarget)} onChange={(event) => { if (formErrors.name) validateField(event.currentTarget); }} />{formErrors.name && <p className="contact-error" role="alert">{formErrors.name}</p>}</div>
+                <div className="contact-field"><label htmlFor="contact-email">Email</label><input id="contact-email" type="email" name="email" placeholder="Your@email.com" required aria-invalid={Boolean(formErrors.email)} onBlur={(event) => validateField(event.currentTarget)} onChange={(event) => { if (formErrors.email) validateField(event.currentTarget); }} />{formErrors.email && <p className="contact-error" role="alert">{formErrors.email}</p>}</div>
+              </div>
+              <div className="contact-field"><label htmlFor="contact-message">Message</label><textarea id="contact-message" name="message" rows={5} placeholder="Message" required aria-invalid={Boolean(formErrors.message)} onBlur={(event) => validateField(event.currentTarget)} onChange={(event) => { if (formErrors.message) validateField(event.currentTarget); }} />{formErrors.message && <p className="contact-error" role="alert">{formErrors.message}</p>}</div>
+              <button className="contact-submit" type="submit">Open email app</button>
+              <p className="contact-form-status" aria-live="polite">{formStatus}</p>
+            </form>
+          </div>
         </section>
       </main>
 
-      <footer className="site-footer section-wrap"><a className="wordmark" href="#top">RB<span>.</span></a><p>Designed with curiosity. Built with care.</p><div className="social-links"><a href="https://github.com/roybipro" aria-label="GitHub" target="_blank" rel="noreferrer"><Github size={17} /></a><a href="https://www.linkedin.com/in/roy-bipro/" aria-label="LinkedIn" target="_blank" rel="noreferrer"><Linkedin size={17} /></a><a href="https://www.instagram.com/bipro.raw/" aria-label="Instagram" target="_blank" rel="noreferrer"><Instagram size={17} /></a><a href="mailto:roybipro896@gmail.com" aria-label="Email"><Send size={16} /></a></div><span className="copyright">© {new Date().getFullYear()} Roy Bipro</span></footer>
+      <footer className="site-footer"><div className="footer-inner">
+        <p className="footer-brand">RoyBipro<span>.dev</span></p>
+        <p className="footer-copy">&copy; {new Date().getFullYear()} Roy Bipro. All rights reserved.</p>
+        <div className="footer-links">
+          <a href="https://github.com/roybipro" target="_blank" rel="noreferrer" aria-label="GitHub"><i className="fa-brands fa-github" aria-hidden="true" /></a>
+          <a href="https://www.linkedin.com/in/roy-bipro/" target="_blank" rel="noreferrer" aria-label="LinkedIn"><i className="fa-brands fa-linkedin" aria-hidden="true" /></a>
+          <a href="mailto:roybipro896@gmail.com" aria-label="Email"><i className="fa-solid fa-envelope" aria-hidden="true" /></a>
+        </div>
+      </div></footer>
     </>
   );
 }
