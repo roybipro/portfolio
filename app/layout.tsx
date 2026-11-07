@@ -4,14 +4,23 @@ import "./globals.css";
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
 export const metadata: Metadata = {
-  title: "Roy Bipro — Computer Science Student & Developer",
+  metadataBase: new URL("https://roybipro.github.io/portfolio/"),
+  title: "Roy Bipro | Full-Stack Developer & AI/ML Researcher",
   description:
-    "The portfolio of Roy Bipro: a computer science student building thoughtful web apps, useful tools, and experiments with AI.",
+    "Roy Bipro builds practical software products and explores machine learning, natural language processing, and intelligent systems.",
   icons: { icon: `${basePath}/images/favicon.png` },
+  alternates: { canonical: "/" },
   openGraph: {
-    title: "Roy Bipro — Computer Science Student & Developer",
-    description: "I turn curious ideas into useful things on the web.",
+    title: "Roy Bipro | Full-Stack Developer & AI/ML Researcher",
+    description: "Practical software products and research in machine learning and language technologies.",
     type: "website",
+    images: [{ url: "images/my-photo.jpg", width: 3406, height: 4541, alt: "Roy Bipro" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Roy Bipro | Full-Stack Developer & AI/ML Researcher",
+    description: "Software products, machine learning, NLP, and intelligent systems.",
+    images: ["images/my-photo.jpg"],
   },
 };
 
